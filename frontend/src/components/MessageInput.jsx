@@ -143,19 +143,6 @@ const MessageInput = () => {
           >
             <Image size={22} />
           </button>
-
-          <div className="relative">
-            <SmilePlus
-              className="cursor-pointer"
-              size={22}
-              onClick={toggleEmojiPicker}
-            />
-            {showEmojiPicker && (
-              <div className="absolute bottom-full mb-2 h-[400px] w-[300px] overflow-scroll right-0 z-10 bg-white shadow-md rounded-lg">
-                <Picker onEmojiClick={(emoji) => handleEmojiClick(emoji)} />
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Send Button */}
@@ -172,3 +159,4 @@ const MessageInput = () => {
 };
 
 export default MessageInput;
+
