@@ -22,11 +22,6 @@ const MessageInput = () => {
     setText((prev) => prev + emojiObject.emoji);
   };
 
-  // Remove selected emoji
-  const handleRemoveEmoji = () => {
-    setSelectedEmoji(null);
-  };
-
   // Handle Image Selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -74,7 +69,7 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 w-full rounded-lg">
       {/* Image Preview */}
       {imagePreview && (
         <div className="mb-3 flex items-center gap-2">
@@ -82,30 +77,14 @@ const MessageInput = () => {
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-700"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-zinc-700"
             />
             <button
               onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300 flex items-center justify-center"
+              className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-base-300 flex items-center justify-center"
               type="button"
             >
-              <X className="size-3" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Emoji Preview */}
-      {selectedEmoji && (
-        <div className="mb-3 flex items-center gap-2">
-          <div className="relative">
-            <span className="text-4xl">{selectedEmoji}</span>
-            <button
-              onClick={handleRemoveEmoji}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300 flex items-center justify-center"
-              type="button"
-            >
-              <X className="size-3" />
+              <X className="text-zinc-700" />
             </button>
           </div>
         </div>
@@ -114,16 +93,40 @@ const MessageInput = () => {
       {/* Message Input Form */}
       <form
         onSubmit={handleSendMessage}
-        className="flex items-center gap-2 relative"
+        className="flex items-center gap-2 relative p-2 rounded-lg border border-zinc-700"
       >
         <div className="flex-1 flex items-center gap-2">
+          {/* Emoji Button */}
+          <button
+            type="button"
+            onClick={toggleEmojiPicker}
+            className="text-zinc-400 hover:text-zinc-600"
+          >
+            <SmilePlus size={22} />
+          </button>
+
+          {/* Emoji Picker */}
+          {showEmojiPicker && (
+            <div className="absolute bottom-full mb-2 overflow-auto left-0 z-10 bg-white shadow-md rounded-lg w-full md:w-auto h-[300px]">
+              <Picker
+                onEmojiClick={(emoji) => handleEmojiClick(emoji)}
+                pickerStyle={{
+                  fontSize: "3px",
+                }}
+              />
+            </div>
+          )}
+
+          {/* Text Input */}
           <input
             type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md"
+            className="w-full h-10 px-4 bg-transparent border-none outline-none placeholder:text-zinc-400"
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+
+          {/* Hidden File Input */}
           <input
             type="file"
             accept="image/*"
@@ -135,34 +138,20 @@ const MessageInput = () => {
           {/* Image Upload Button */}
           <button
             type="button"
-            className={`btn btn-circle ${
-              imagePreview ? "text-emerald-500" : "text-zinc-400"
-            }`}
+            className="text-zinc-400 hover:text-zinc-600"
             onClick={() => fileInputRef.current?.click()}
           >
             <Image size={22} />
           </button>
-
-          <div className="relative">
-            <SmilePlus
-              className="cursor-pointer"
-              size={22}
-              onClick={toggleEmojiPicker}
-            />
-            {showEmojiPicker && (
-              <div className="absolute bottom-full mb-2 h-[400px] w-[300px] overflow-scroll right-0 z-10 bg-white shadow-md rounded-lg">
-                <Picker onEmojiClick={(emoji) => handleEmojiClick(emoji)} />
-              </div>
-            )}
-          </div>
         </div>
 
+        {/* Send Button */}
         <button
           type="submit"
-          className="btn btn-sm btn-circle"
+          className="p-2 bg-blue-500 rounded-full hover:bg-blue-600 disabled:bg-zinc-600"
           disabled={!text.trim() && !imagePreview}
         >
-          <Send size={22} />
+          <Send size={22} className="text-white" />
         </button>
       </form>
     </div>

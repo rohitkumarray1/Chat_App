@@ -15,6 +15,8 @@ const Sidebar = () => {
     getUsers();
   }, [getUsers]);
 
+  console.log(selectedUser);
+
   const filteredUsers = showOnlineOnly
     ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
@@ -22,14 +24,18 @@ const Sidebar = () => {
   if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
-    <aside className="h-full w-20 md:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
+    <aside
+      className={`h-full w-full md:w-72 border-r border-base-300 flex flex-col transition-all duration-200 ${
+        selectedUser ? "hidden md:block" : "w-full"
+      }`}
+    >
       <div className="border-b border-base-300 w-full p-5">
         <div className="flex items-center gap-2">
           <Users className="size-6" />
           <span className="font-medium hidden md:block">Contacts</span>
         </div>
         {/* Online filter toggle */}
-        <div className="mt-3 hidden md:flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-2">
           <label className="cursor-pointer flex items-center gap-2">
             <input
               type="checkbox"
@@ -75,7 +81,7 @@ const Sidebar = () => {
             </div>
 
             {/* User info - now visible from medium screens and up */}
-            <div className="hidden md:block text-left min-w-0">
+            <div className="w-full text-left min-w-0">
               <div className="font-medium truncate">{user.fullName}</div>
               <div className="text-sm text-zinc-400">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
