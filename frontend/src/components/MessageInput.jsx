@@ -82,7 +82,7 @@ const MessageInput = () => {
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-700"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-zinc-700"
             />
             <button
               onClick={removeImage}
@@ -150,7 +150,7 @@ const MessageInput = () => {
               onClick={toggleEmojiPicker}
             />
             {showEmojiPicker && (
-              <div className="absolute bottom-full mb-2 h-[400px] w-[300px] overflow-scroll right-0 z-10 bg-white shadow-md rounded-lg">
+              <div className="absolute bottom-full mb-2 h-[400px] w-[250px] sm:w-[300px] overflow-scroll right-0 z-10 bg-white shadow-md rounded-lg">
                 <Picker onEmojiClick={(emoji) => handleEmojiClick(emoji)} />
               </div>
             )}
@@ -170,3 +170,4 @@ const MessageInput = () => {
 };
 
 export default MessageInput;
+
